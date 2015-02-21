@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Shopping List</title>
+</head>
+<body>
+  <ul>
+  {{#each items}}
+    <li> {{this}}
+
+      <input class="updateIndex" index="{{@index}}" type="text" name="item" placeholder="Update this item">
+      <button class="updateItem">Update Item</button>
+
+    </li>
+
+  {{/each}}
+  </ul>
+
+   <form action="/" method="post">
+      <input type="text" name="item" placeholder="Enter an item">
+      <button>Add Item</button>
+   </form>
+
+    <input id="deleteIndex" type="text" name="item" placeholder="Delete an item">
+    <button id="deleteItem">Delete Item</button>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+    $('#deleteItem').click(function () {
+      console.log($('#deleteIndex').val());
+      $.ajax({
+        url: '/' + $('#deleteIndex').val(),
+        type: 'DELETE',
+        success: function(data) {
+          window.location = data.redirect
+        }
+      });
+    });
+
+    $('.updateItem').click(function () {
+      $.ajax({
+        url: '/',
+        data: { item: $('.updateIndex').val(), index: $('.updateIndex').attr('index') },
+        type: 'PUT',
+        success: function(data) {
+          window.location = data.redirect
+        }
+      });
+    });
+
+    </script>
+</body>
+</html>
